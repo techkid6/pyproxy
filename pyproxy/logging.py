@@ -27,8 +27,10 @@ import datetime
 
 class Logger:
 
-    log_types = {'info': Fore.GREEN, 'warning': Fore.YELLOW, 'severe': Fore.RED, 'debug': Fore.BLUE}
-
+    log_types = {'info': Fore.GREEN,
+                 'warning': Fore.YELLOW,
+                 'severe': Fore.RED,
+                 'debug': Fore.BLUE}
 
     def __init__(self, verbose):
         self.verbose = verbose
@@ -38,7 +40,15 @@ class Logger:
         if not log_type in self.log_types:
             log_type = 'info'
         log_color = self.log_types[log_type]
-        print ('%s [%s%s%s] %s' % (datetime.date.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S'), log_color, log_type.upper(), Fore.RESET, msg))
+
+        date_now = datetime.datetime.now()
+        date_code = datetime.datetime.strftime(date_now, '%Y-%m-%d %H:%M:%S')
+
+        print ('%s [%s%s%s] %s' % (date_code,
+                                   log_color,
+                                   log_type.upper(),
+                                   Fore.RESET,
+                                   msg))
 
     def debug(self, msg):
         if self.verbose:
