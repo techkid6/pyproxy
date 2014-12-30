@@ -22,32 +22,34 @@
 
 __author__ = 'techkid6'
 
-import argparse
-from pyproxy.logging import Logger
+from colorama import init, Fore
+import datetime
 
-def main():
-    arg_parser = argparse.ArgumentParser()
-    arg_parser.description = 'A simple HTTP proxy with plugin support'
+class Logger:
 
-    arg_parser.add_argument('-H', '--host',    default='0.0.0.0',
-                            help='The address the proxy will listen on')
-    arg_parser.add_argument('-p', '--port',    default=8080,  type=int,
-                            help='The port that the proxy will listen to')
-    arg_parser.add_argument('-v', '--verbose', default=False, type=bool,
-                            help='Show more output in the logs')
-    arg_parser.add_argument('-P', '--plugin',                 type=open,
-                            help='The file where your plugin is located')
-
-    args = arg_parser.parse_args()
-    args_iter = vars(args)
-
-    logger = Logger(args_iter['verbose'])
-    for arg in args_iter:
-        logger.debug('%s: %s' % (arg, args_iter[arg]))
-
-    logger.info('Starting pyproxy')
-    # TODO: Start a proxy with the arguments provided
+    log_types = {'info': Fore.GREEN, 'warning': Fore.YELLOW, 'severe': Fore.RED, 'debug': Fore.BLUE}
 
 
-if __name__ == '__main__':
-    main()
+    def __init__(self, verbose):
+        self.verbose = verbose
+        init()
+
+    def _log(self, log_type, msg):
+        if not log_type in self.log_types:
+            log_type = 'info'
+        log_color = self.log_types[log_type]
+        print ('%s [%s%s%s] %s' % (datetime.date.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S'), log_color, log_type.upper(), Fore.RESET, msg))
+
+    def debug(self, msg):
+        if self.verbose:
+            self._log('debug', msg)
+
+    def info(self, msg):
+        self._log('info', msg)
+
+    def warning(self, msg):
+        self._log('warning', msg)
+
+    def severe(self, msg):
+        self._log('severe', msg)
+
