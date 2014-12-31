@@ -22,14 +22,10 @@
 
 __author__ = 'techkid6'
 
-from distutils.core import setup
+""" Allows for modification of requests from proxy clients"""
+def handle_request(request):
+    return None
 
-setup(name='pyproxy',
-      version='1.0',
-      description='A simple HTTP proxy with plugin support',
-      author='Evan Markowitz',
-      author_email='evan.markowitz99@gmail.com',
-      url='https://github.com/techkid6/pyproxy',
-      packages=['proxy'],
-      requires=['argparse','colorama','urlparse']
-     )
+""" Allows for modification of responses returned to proxy clients"""
+def handle_response(response):
+    return None

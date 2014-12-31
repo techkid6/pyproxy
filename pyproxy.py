@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # The MIT License (MIT)
 
 # Copyright (c) 2014 Evan Markowitz
@@ -23,7 +25,8 @@
 __author__ = 'techkid6'
 
 import argparse
-from pyproxy.logging import Logger
+from proxy.logging import Logger
+from proxy.HTTPProxy import HTTPProxy
 
 def main():
     arg_parser = argparse.ArgumentParser()
@@ -38,16 +41,34 @@ def main():
     arg_parser.add_argument('-P', '--plugin',                 type=open,
                             help='The file where your plugin is located')
 
-    args = arg_parser.parse_args()
+    try:
+        args = arg_parser.parse_args()
+    except IOError:
+        # Temporary logger because we haven't set up the initial one yet
+        Logger(False).severe('Error finding plugin file, exiting')
+        exit(1)
+
+
     args_iter = vars(args)
 
     logger = Logger(args_iter['verbose'])
     for arg in args_iter:
         logger.debug('%s: %s' % (arg, args_iter[arg]))
 
-    logger.info('Starting pyproxy')
-    # TODO: Start a proxy with the arguments provided
+    plugin = None
 
+    if args_iter['plugin'] is not None:
+        if args_iter['plugin'].name.endswith('.py'):
+            plugin_name = args_iter['plugin'].name.replace('/', '.')[:-3]
+            logger.info("Loading plugin: %s" % plugin_name)
+            try:
+                plugin = __import__(plugin_name)
+            except IOError:
+                logger.severe('Failed to load %s' % plugin_name)
+                exit(1)
+
+    logger.info('Starting proxy')
+    proxy = HTTPProxy(args_iter['host'], args_iter['port'], plugin)
 
 if __name__ == '__main__':
     main()

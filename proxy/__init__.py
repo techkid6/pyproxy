@@ -21,15 +21,3 @@
 # SOFTWARE.
 
 __author__ = 'techkid6'
-
-from distutils.core import setup
-
-setup(name='pyproxy',
-      version='1.0',
-      description='A simple HTTP proxy with plugin support',
-      author='Evan Markowitz',
-      author_email='evan.markowitz99@gmail.com',
-      url='https://github.com/techkid6/pyproxy',
-      packages=['proxy'],
-      requires=['argparse','colorama','urlparse']
-     )

@@ -25,6 +25,7 @@ __author__ = 'techkid6'
 from colorama import init, Fore
 import datetime
 
+
 class Logger:
 
     log_types = {'info': Fore.GREEN,

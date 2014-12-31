@@ -22,14 +22,18 @@
 
 __author__ = 'techkid6'
 
-from distutils.core import setup
 
-setup(name='pyproxy',
-      version='1.0',
-      description='A simple HTTP proxy with plugin support',
-      author='Evan Markowitz',
-      author_email='evan.markowitz99@gmail.com',
-      url='https://github.com/techkid6/pyproxy',
-      packages=['proxy'],
-      requires=['argparse','colorama','urlparse']
-     )
+class HTTPProxy:
+
+    valid_methods = {'CONNECT',
+                     'GET',
+                     'POST',
+                     'OPTIONS',
+                     'HEAD',
+                     'PUT',
+                     'DELETE',
+                     'TRACE'}
+
+    def __init__(self, host, port, plugin):
+        while 1:
+            pass
